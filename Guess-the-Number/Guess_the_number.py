@@ -1,28 +1,28 @@
-import os
-import yt_dlp 
+import random
+randNum = random.randint(1,100)
+userGuess = None
+gusses = 0
 
-# Define the output directory based on your desired path
-output_directory = 'D:\\Ye Hai Mohabatein\\8\\90'
+while (userGuess != randNum):
+    userGuess = int(input("Enter an number: "))
+    if (userGuess == randNum):
+        print("congrats! You guess it right")
+    else:
+        if (userGuess>randNum):
+            print("Enter an smaller number")
+        else:
+            print("Enter an larger number")
+    gusses += 1  
+print(f"Your guess it right in {gusses} gusses")
 
-# Create the directory if it doesn't exist
-os.makedirs(output_directory, exist_ok=True)
+with open("New_Hiscore.txt","r") as f:
+    Hiscore = int(f.read())
 
-# Set the options for yt-dlp, including the output directory and video range
-ydl_opts = {
-    'outtmpl': os.path.join(output_directory, '%(title)s.%(ext)s'),  # Save in the specified output directory
-    'playliststart': 996+3 ,  # Start downloading from video number 415 (1-based index)
-    'playlistend': 1005+3 ,    # Stop downloading at video number 423 (1-based index)
-}
+if Hiscore == "":
+    with open("New_Hiscore.txt",'w') as f:
+        f.write(str(gusses))
 
-# Initialize yt-dlp with options
-with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-    try:
-        # Provide the playlist URL here
-        playlist_url = 'https://www.youtube.com/playlist?list=PLAM7IOZnvD2FGWdj3ytcZCMnQdw6FBaHg'
-        
-        # Download the specified range of videos from the playlist
-        ydl.download([playlist_url])
-        
-        print("Download successful!")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+if gusses<Hiscore:
+    print("You just have Broken the hiscore")
+    with open("New_Hiscore.txt","w") as f:
+        f.write(str(gusses))
